@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.log
+offres.csv
+offres.html
+lettre_*.txt
