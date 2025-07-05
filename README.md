@@ -51,3 +51,7 @@ Les noms de fichiers sont nettoyés pour éviter les caractères spéciaux.
 ## Avertissement
 
 Les sites ciblés peuvent changer de structure. Le scraping peut donc nécessiter des ajustements réguliers. Une connexion Internet active est requise.
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
