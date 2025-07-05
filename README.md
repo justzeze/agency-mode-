@@ -15,6 +15,12 @@ pip install -r requirements.txt
 
 ## Utilisation
 
+Vous pouvez aussi utiliser `interface.py` pour tout lancer automatiquement :
+
+```bash
+python interface.py --pages 2
+```
+
 Lancez le script principal pour récupérer les offres depuis Indeed et Welcome To The Jungle puis générez deux fichiers :
 
 - `offres.csv` : liste des offres
@@ -39,6 +45,7 @@ Les noms de fichiers sont nettoyés pour éviter les caractères spéciaux.
 
 - `scraper.py` – récupération et export des offres
 - `generate_letter.py` – création de lettres de motivation personnalisées (optionnel)
+- `interface.py` – petite interface pour lancer le scraping et la génération de lettres
 - `requirements.txt` – dépendances Python
 
 ## Avertissement
