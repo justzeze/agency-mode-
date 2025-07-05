@@ -1,12 +1,17 @@
 import csv
+import html
+import logging
+from urllib.parse import urljoin, quote_plus
+
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, quote_plus
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                   "(KHTML, like Gecko) Chrome/120.0 Safari/537.36"
 }
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 KEYWORDS = [
     "alternance", "apprentissage", "contrat pro", "webdesign",
@@ -19,6 +24,17 @@ def _match_keywords(text: str) -> bool:
     """Return True if any keyword is found in text."""
     text = text.lower()
     return any(kw.lower() in text for kw in KEYWORDS)
+
+
+def fetch(url: str) -> str:
+    """Return page content or empty string on error."""
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=10)
+        resp.raise_for_status()
+        return resp.text
+    except requests.RequestException as exc:
+        logging.warning("Echec de la requête %s: %s", url, exc)
+        return ""
 
 
 class Job:
@@ -46,8 +62,11 @@ def scrape_indeed(pages: int = 1):
     for page in range(pages):
         start = page * 10
         url = f"{base_url}/jobs?q={quote_plus('alternance')}&start={start}"
-        resp = requests.get(url, headers=HEADERS, timeout=10)
-        soup = BeautifulSoup(resp.text, "html.parser")
+        html_data = fetch(url)
+        if not html_data:
+            continue
+        logging.info("Scraping Indeed page %s", page + 1)
+        soup = BeautifulSoup(html_data, "html.parser")
         cards = soup.select("a.tapItem")
         for card in cards:
             title_tag = card.select_one("h2 span")
@@ -74,8 +93,11 @@ def scrape_wttj(pages: int = 1):
             f"{base_url}/fr/jobs?page={page}&query={query}"
             f"&refinementList%5Bcontract_type_names.fr%5D%5B%5D=Alternance"
         )
-        resp = requests.get(url, headers=HEADERS, timeout=10)
-        soup = BeautifulSoup(resp.text, "html.parser")
+        html_data = fetch(url)
+        if not html_data:
+            continue
+        logging.info("Scraping WTTJ page %s", page)
+        soup = BeautifulSoup(html_data, "html.parser")
         articles = soup.select("article")
         for art in articles:
             title_tag = art.find("h3")
@@ -103,8 +125,11 @@ def save_csv(jobs, filename="offres.csv"):
 
 def save_html(jobs, filename="offres.html"):
     rows = "\n".join(
-        f"<tr><td>{j.title}</td><td>{j.company}</td><td>{j.location}</td>"
-        f"<td><a href='{j.link}'>Lien</a></td><td>{j.snippet[:300]}</td></tr>"
+        f"<tr><td>{html.escape(j.title)}</td>"
+        f"<td>{html.escape(j.company)}</td>"
+        f"<td>{html.escape(j.location)}</td>"
+        f"<td><a href='{j.link}'>Lien</a></td>"
+        f"<td>{html.escape(j.snippet)[:300]}</td></tr>"
         for j in jobs
     )
     html = (
@@ -117,9 +142,9 @@ def save_html(jobs, filename="offres.html"):
         f.write(html)
 
 
-def main():
-    indeed_jobs = scrape_indeed(pages=2)
-    wttj_jobs = scrape_wttj(pages=2)
+def main(pages: int = 2):
+    indeed_jobs = scrape_indeed(pages=pages)
+    wttj_jobs = scrape_wttj(pages=pages)
     jobs = indeed_jobs + wttj_jobs
     save_csv(jobs)
     save_html(jobs)
@@ -127,4 +152,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Scrape des offres d'alternance")
+    parser.add_argument("--pages", type=int, default=2, help="Nombre de pages à analyser par site")
+    args = parser.parse_args()
+
+    main(pages=args.pages)

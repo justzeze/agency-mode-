@@ -21,7 +21,7 @@ Lancez le script principal pour récupérer les offres depuis Indeed et Welcome 
 - `offres.html` : tableau consultable dans un navigateur
 
 ```bash
-python scraper.py
+python scraper.py --pages 2
 ```
 
 ### Génération des lettres de motivation
@@ -33,6 +33,7 @@ python generate_letter.py
 ```
 
 Chaque lettre est enregistrée dans un fichier `lettre_<entreprise>.txt`.
+Les noms de fichiers sont nettoyés pour éviter les caractères spéciaux.
 
 ## Structure du projet
 
@@ -42,4 +43,4 @@ Chaque lettre est enregistrée dans un fichier `lettre_<entreprise>.txt`.
 
 ## Avertissement
 
-Les sites ciblés peuvent changer de structure. Le scraping peut donc nécessiter des ajustements réguliers.
+Les sites ciblés peuvent changer de structure. Le scraping peut donc nécessiter des ajustements réguliers. Une connexion Internet active est requise.
