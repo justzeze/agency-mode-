@@ -1,0 +1,53 @@
+# Dépendances
+node_modules/
+eliza-agent/node_modules/
+
+# Fichiers de build
+dist/
+eliza-agent/dist/
+*.tsbuildinfo
+
+# Fichiers d'environnement (clés API)
+.env
+.env.local
+.env.*.local
+eliza-agent/.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Fichiers de base de données locale
+*.db
+*.sqlite
+*.sqlite3
+.eliza/
+eliza-agent/.eliza/
+
+# Fichiers temporaires et cache
+.cache/
+.temp/
+.tmp/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Fichiers de lock Bun
+bun.lockb
+
+# Fichiers IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers de test
+coverage/
+.nyc_output/
