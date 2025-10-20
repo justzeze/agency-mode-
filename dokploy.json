@@ -1,0 +1,33 @@
+{
+  "name": "eliza-backend",
+  "type": "application",
+  "buildType": "nixpacks",
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "3000",
+    "OLLAMA_API_ENDPOINT": "http://votre-ip-locale:11434/api",
+    "OLLAMA_SMALL_MODEL": "llama3.2",
+    "OLLAMA_MEDIUM_MODEL": "llama3.2",
+    "OLLAMA_LARGE_MODEL": "llama3.2",
+    "OLLAMA_EMBEDDING_MODEL": "nomic-embed-text",
+    "POSTGRES_URL": "${{postgres.DATABASE_URL}}",
+    "LOG_LEVEL": "info",
+    "ELIZA_SERVER_AUTH_TOKEN": "${{secret.AUTH_TOKEN}}",
+    "SECRET_SALT": "${{secret.SALT}}"
+  },
+  "domains": [
+    {
+      "domain": "eliza-api.votre-domaine.com",
+      "https": true
+    }
+  ],
+  "healthCheck": {
+    "path": "/api/health",
+    "interval": 30,
+    "timeout": 10
+  },
+  "resources": {
+    "memory": "512Mi",
+    "cpu": "0.5"
+  }
+}
