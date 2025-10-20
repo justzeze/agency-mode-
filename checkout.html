@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande - ShopModerne</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>ShopModerne</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="products.html">Produits</a></li>
+                    <li><a href="#about">À propos</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <a href="#search"><i class="fas fa-search"></i></a>
+                    <a href="#account"><i class="fas fa-user"></i></a>
+                    <a href="products.html" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                </div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Checkout Container -->
+    <div class="container">
+        <div class="checkout-container">
+            <!-- Checkout Form -->
+            <div class="checkout-form">
+                <h2 style="margin-bottom: 30px; color: var(--dark-color);">Finaliser la commande</h2>
+
+                <form id="checkout-form">
+                    <!-- Shipping Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-shipping-fast"></i> Informations de livraison</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Prénom *</label>
+                                <input type="text" id="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Nom *</label>
+                                <input type="text" id="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Téléphone *</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Adresse *</label>
+                            <input type="text" id="address" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">Ville *</label>
+                                <input type="text" id="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="postalCode">Code postal *</label>
+                                <input type="text" id="postalCode" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Pays *</label>
+                            <select id="country" required>
+                                <option value="">Sélectionner un pays</option>
+                                <option value="FR" selected>France</option>
+                                <option value="BE">Belgique</option>
+                                <option value="CH">Suisse</option>
+                                <option value="CA">Canada</option>
+                                <option value="LU">Luxembourg</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-credit-card"></i> Informations de paiement</h3>
+                        <div class="form-group">
+                            <label for="cardName">Nom sur la carte *</label>
+                            <input type="text" id="cardName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardNumber">Numéro de carte *</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Date d'expiration *</label>
+                                <input type="text" id="expiry" placeholder="MM/AA" maxlength="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV *</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-comment"></i> Notes supplémentaires</h3>
+                        <div class="form-group">
+                            <label for="notes">Instructions de livraison (optionnel)</label>
+                            <textarea id="notes" rows="4" placeholder="Ajoutez des instructions spéciales pour la livraison..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="width: 100%; padding: 15px; font-size: 18px;">
+                        <i class="fas fa-lock"></i> Payer maintenant
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h3>Récapitulatif de commande</h3>
+                <div id="order-items">
+                    <!-- Order items will be loaded dynamically -->
+                </div>
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #d1d5db;">
+                    <div class="summary-item" style="border: none;">
+                        <span>Sous-total:</span>
+                        <span id="subtotal">0.00€</span>
+                    </div>
+                    <div class="summary-item" style="border: none;">
+                        <span>Livraison:</span>
+                        <span id="shipping">Gratuite</span>
+                    </div>
+                    <div class="summary-item" style="border: none;">
+                        <span>TVA (20%):</span>
+                        <span id="tax">0.00€</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="total">0.00€</span>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background-color: #dbeafe; border-radius: 8px; font-size: 14px;">
+                    <i class="fas fa-shield-alt" style="color: var(--primary-color);"></i>
+                    <strong>Paiement 100% sécurisé</strong>
+                    <p style="margin-top: 10px; color: #6b7280;">Vos informations sont protégées et cryptées</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 60px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ShopModerne</h3>
+                    <p>Votre destination pour des produits de qualité à prix abordables.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens Rapides</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="products.html">Produits</a></li>
+                        <li><a href="#about">À propos</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Service Client</h4>
+                    <ul>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#shipping">Livraison</a></li>
+                        <li><a href="#returns">Retours</a></li>
+                        <li><a href="#privacy">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Rue Commerce, Paris</li>
+                        <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                        <li><i class="fas fa-envelope"></i> contact@shopmoderne.fr</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ShopModerne. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
