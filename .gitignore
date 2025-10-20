@@ -7,7 +7,6 @@ dist/
 eliza-agent/dist/
 *.tsbuildinfo
 
-# Fichiers d'environnement (clés API)
 .env
 .env.local
 .env.*.local
